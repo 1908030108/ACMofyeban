@@ -1,36 +1,32 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
 
-int main(void){
-    int n, i, j;
-    int t[80000], k[80000], c[80000];
-    int d[80000];
-     scanf("%d",&n);
-     d[0] = 1;
-   for(i = 0; i < n; i++)
-        d[i+1] = d[i] + 1;
-    for(i = 0;i < n; i++)
-        scanf("%d%d",&t[i],&k[i]);
-    for(i = 0;i < n; i++)
-        c[i] = t[i] * k[i];
-    for(i = 0;i < n; i++){
-        for(j = 0; j <= n-i-1; j++){
-            if(c[j] < c[j+1]){
-                int temp = d[j];
-                d[j] = d[j+1];
-                d[j+1] = temp;
-            }
-            if(c[j] == c[j+1]){
-                if(d[j] > d[j+1])
-                {
-                int temp = d[j];
-                d[j] = d[j+1];
-                d[j+1] = temp;
-                }
-            }
-        }
+using namespace std;
+
+const int maxn = 5e5+7;
+
+struct node {
+     int id, t, k;
+     bool operator < (const node &c){
+         if(t * k != c.t * c.k) return (t*k)> (c.t*c.k);
+         else if(t != c.t) return t > c.t;
+         else return id < c.id;
+     }
+};
+
+node a[maxn];
+
+int main()
+{
+    int n;
+    scanf("%d", &n);
+    for(int i = 1; i <= n; i++)
+    {
+        int t, k;
+        scanf("%d%d",&t,&k);
+        a[i] = {i, t, k};
     }
-    for(i = 0; i < n; i++)
-        printf("%d ",d[i]);
-        printf("\n");
-return 0;
+    sort(a+1, a+1+n);
+    for(int i = 1; i <= n; i++)
+        printf("%d ",a[i].id);
+    return 0;
 }
